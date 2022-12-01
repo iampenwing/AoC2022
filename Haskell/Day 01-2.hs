@@ -10,25 +10,11 @@
 import Data.String
 import Data.List
 import System.Environment
-
-myReadInt :: [Char] -> Int
-myReadInt ('+':xs) = read xs ::Int
-myReadInt x = read x :: Int
-
-countLists :: [String] -> [Int]
-countLists [] = []
-countLists (x:xs) =
-  let (topCount, rest) = (iCountLists 0 (x:xs))
-  in (topCount:(countLists rest))
-
-iCountLists :: Int -> [String] -> (Int, [String])
-iCountLists count [] = (count, [])
-iCountLists count ("":xs) = (count, xs)
-iCountLists count (x:xs) = iCountLists (count + (myReadInt x)) xs
+import AoCLib.AoC2022 as AoC
 
 main :: IO()
 main = do
   [fileInput] <- getArgs
   fileContents <- readFile fileInput
-  let answer = (sum (take 3 (reverse (sort (countLists (lines fileContents))))))
+  let answer = (sum (take 3 (reverse (sort (AoC.countLists (lines fileContents))))))
          in putStrLn (show answer)
