@@ -1,6 +1,6 @@
 #lang racket
-(define test-file "/home/penwing/Programming/AoC2022/Inputs/TestInput 01.txt")
-(define data-file "/home/penwing/Programming/AoC2022/Inputs/Input 01.txt")
+(define test-file "/home/penwing/Programming/AoC2022/TestInputs/Day 01.txt")
+(define data-file "/home/penwing/Programming/AoC2022/Inputs/Day 01.txt")
 
 (define (read-file file-name)
   (let ((file-port (open-input-file file-name)))
