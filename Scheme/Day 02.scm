@@ -1,18 +1,9 @@
 #lang racket
+
+(require "AoC2022.rkt")
+
 (define test-file "/home/penwing/Programming/AoC2022/TestInputs/Day 02.txt")
 (define data-file "/home/penwing/Programming/AoC2022/Inputs/Day 02.txt")
-
-(define (read-file file-name)
-  (let ((file-port (open-input-file file-name)))
-    (let ((file-as-list (read-file-helper file-port)))
-      (close-input-port file-port)
-      file-as-list)))
-
-(define (read-file-helper inport)
-  (let ((line (read-line inport)))
-    (if (eof-object? line)
-	'()
-	(cons line (read-file-helper inport)))))
 
 (define rock 1)
 (define paper 2)
