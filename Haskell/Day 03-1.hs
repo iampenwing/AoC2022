@@ -1,7 +1,7 @@
--- AdventOfCode 2022 Day 1, Puzzle 1
--- Calorie Counting
--- https://adventofcode.com/2022/day/1
--- Counts when depth increases
+-- AdventOfCode 2022 Day 3, Puzzle 1
+-- Rucksack Reorganisation
+-- https://adventofcode.com/2022/day/3
+-- Finds "badly packed" items
 
 -- Alex Lambert (penwing)
 -- aoc@penwing.me.uk

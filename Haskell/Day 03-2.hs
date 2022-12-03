@@ -1,7 +1,7 @@
--- AdventOfCode 2022 Day 1, Puzzle 1
+-- AdventOfCode 2022 Day 3, Puzzle 2
 -- Calorie Counting
--- https://adventofcode.com/2022/day/1
--- Counts when depth increases
+-- https://adventofcode.com/2022/day/3
+-- Badge Verification
 
 -- Alex Lambert (penwing)
 -- aoc@penwing.me.uk
