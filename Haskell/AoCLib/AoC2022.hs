@@ -4,8 +4,13 @@ module AoCLib.AoC2022
     countLists,
     commonElement,
     splitListInHalf,
-    findDuplicate
+    findDuplicate,
+    packRucksack,
+    findCommon,
+    findCommonElement
   ) where
+
+import qualified Data.Set as Set
 
 myReadInt :: [Char] -> Int
 myReadInt ('+':xs) = read xs ::Int
@@ -49,3 +54,16 @@ findDuplicate ((x:xs), y) =
      then x
      else (findDuplicate (xs, y))
 
+packRucksack :: String -> (Set.Set Char, Set.Set Char)
+packRucksack ls = let (compartment1, compartment2) = splitAt ((length ls) `div` 2) ls
+                      in ((Set.fromList compartment1), (Set.fromList compartment2))
+
+findCommon :: (Set.Set Char, Set.Set Char) -> Char
+findCommon (compartment1, compartment2) = (head (Set.toList (Set.intersection compartment1 compartment2)))
+
+findCommonElement :: [String] -> Char
+findCommonElement (x:xs) = findCommonElementHelper (Set.fromList x) (map Set.fromList xs)
+
+findCommonElementHelper :: Set.Set Char -> [Set.Set Char] -> Char
+findCommonElementHelper c [] = head (Set.toList c)
+findCommonElementHelper c (x:xs) = findCommonElementHelper (Set.intersection c x) xs
