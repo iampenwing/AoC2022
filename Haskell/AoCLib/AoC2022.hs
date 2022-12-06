@@ -7,7 +7,8 @@ module AoCLib.AoC2022
     findDuplicate,
     packRucksack,
     findCommon,
-    findCommonElement
+    findCommonElement,
+    finduniqueSequence
   ) where
 
 import qualified Data.Set as Set
@@ -67,3 +68,18 @@ findCommonElement (x:xs) = findCommonElementHelper (Set.fromList x) (map Set.fro
 findCommonElementHelper :: Set.Set Char -> [Set.Set Char] -> Char
 findCommonElementHelper c [] = head (Set.toList c)
 findCommonElementHelper c (x:xs) = findCommonElementHelper (Set.intersection c x) xs
+
+-- Note - for Day 6, this will return the START of the sequence (as a zero-indexed count), not the end (as a one-indexed count) as required, so add 4 to the results
+findUniqueSequence :: Int -> String -> Int
+findUniqueSequence lengthOfSequence searchString = findUniqueSequenceHelper 0 lengthOfSequence [] searchString
+
+findUniqueSequenceHelper :: Int -> Int -> String -> String -> Int
+findUniqueSequenceHelper startIndex sequenceLength [] (topOfSequence:restOfSequence) = findUniqueSequenceHelper (startIndex + 1) sequenceLength (topOfSequence:[]) restOfSequence 
+findUniqueSequenceHelper startIndex sequenceLength (currentSequenceDrop:currentSequence) (nextChar:remainingSearchString)
+  | (sequenceLength == ((length currentSequence) + 1)) && nextChar `elem` currentSequence = findUniqueSequenceHelper (startIndex +1) sequenceLength (currentSequence ++ (list nextChar)) remainingSearchString
+  | (sequenceLength == ((length currentSequence) + 1)) && (not (nextCar `elem` currentSequence)) = startIndex
+  | otherwise = findUniqueSequenceHelper (startIndex + 1) sequenceLength (currentSequence ++ (list nextChar)) remainingSearchString
+  
+  
+  
+  
