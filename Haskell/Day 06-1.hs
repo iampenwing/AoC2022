@@ -16,4 +16,4 @@ main :: IO()
 main = do
   [fileInput] <- getArgs
   fileContents <- readFile fileInput
-  putStrLn (show (findUniqueSequence 4 topCrates) + 4)
+  putStrLn (show (findUniqueSequence 4 fileContents) + 4)
