@@ -8,7 +8,7 @@ module AoCLib.AoC2022
     packRucksack,
     findCommon,
     findCommonElement,
-    finduniqueSequence
+    findUniqueSequence
   ) where
 
 import qualified Data.Set as Set
