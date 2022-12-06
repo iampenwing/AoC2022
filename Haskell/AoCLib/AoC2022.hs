@@ -69,7 +69,7 @@ findCommonElementHelper :: Set.Set Char -> [Set.Set Char] -> Char
 findCommonElementHelper c [] = head (Set.toList c)
 findCommonElementHelper c (x:xs) = findCommonElementHelper (Set.intersection c x) xs
 
--- Note - for Day 6, this should return the START of the sequence (as a zero-indexed count), not the end (as a one-indexed count) as required, so add 4 to the results - except it doesn't... It returns 1 below the number of processed characters
+-- Note - for Day 6, this should return the START of the sequence (as a zero-indexed count), not the end (as a one-indexed count) as required, so add 4 to the results
 findUniqueSequence :: Int -> String -> Int
 findUniqueSequence lengthOfSequence searchString = findUniqueSequenceHelper 0 lengthOfSequence [] searchString
 
@@ -81,6 +81,6 @@ findUniqueSequenceHelper startIndex sequenceLength (currentSequenceDrop:currentS
     && (not uniqueSequence) = findUniqueSequenceHelper (startIndex +1) sequenceLength (currentSequence ++ nextChar:[]) remainingSearchString
   | (sequenceLength == ((length currentSequence) + 1)) 
     && uniqueSequence = startIndex
-  | otherwise = findUniqueSequenceHelper (startIndex + 1) sequenceLength ((currentSequenceDrop:currentSequence) ++ (nextChar:[])) remainingSearchString
+  | otherwise = findUniqueSequenceHelper (startIndex) sequenceLength ((currentSequenceDrop:currentSequence) ++ (nextChar:[])) remainingSearchString
   where uniqueSequence = isUniqueSequence (currentSequence ++ (nextChar:[]))
   
