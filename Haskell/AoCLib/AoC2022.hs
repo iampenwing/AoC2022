@@ -76,10 +76,15 @@ findUniqueSequence lengthOfSequence searchString = findUniqueSequenceHelper 0 le
 findUniqueSequenceHelper :: Int -> Int -> String -> String -> Int
 findUniqueSequenceHelper startIndex sequenceLength [] (topOfSequence:restOfSequence) = findUniqueSequenceHelper (startIndex + 1) sequenceLength (topOfSequence:[]) restOfSequence 
 findUniqueSequenceHelper startIndex sequenceLength (currentSequenceDrop:currentSequence) (nextChar:remainingSearchString)
-  | (sequenceLength == ((length currentSequence) + 1)) && nextChar `elem` currentSequence = findUniqueSequenceHelper (startIndex +1) sequenceLength (currentSequence ++ (list nextChar)) remainingSearchString
-  | (sequenceLength == ((length currentSequence) + 1)) && (not (nextCar `elem` currentSequence)) = startIndex
+  | (sequenceLength == ((length currentSequence) + 1)) && (not uniqueSequence) = findUniqueSequenceHelper (startIndex +1) sequenceLength (currentSequence ++ (list nextChar)) remainingSearchString
+  | (sequenceLength == ((length currentSequence) + 1)) && uniqueSequence = startIndex
   | otherwise = findUniqueSequenceHelper (startIndex + 1) sequenceLength (currentSequence ++ (list nextChar)) remainingSearchString
+  where uniqueSequence = isUniqueSequence (currentSequence ++ (list nextChar))
   
-  
+isUniqueSequence :: String -> Bool
+isUniqueSequence [] = True
+isUniqueSequence (x:xs) 
+  | x `elem` xs = False
+  | otherwise   = isUniqueSequence xs
   
   
