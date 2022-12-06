@@ -84,3 +84,9 @@ findUniqueSequenceHelper startIndex sequenceLength (currentSequenceDrop:currentS
   | otherwise = findUniqueSequenceHelper (startIndex) sequenceLength ((currentSequenceDrop:currentSequence) ++ (nextChar:[])) remainingSearchString
   where uniqueSequence = isUniqueSequence (currentSequence ++ (nextChar:[]))
   
+isUniqueSequence :: String -> Bool
+isUniqueSequence [] = True
+isUniqueSequence (topChar:restOfSequence) 
+  | topChar `elem` restOfSequence = False
+  | otherwise                     = isUniqueSequence restOfSequence
+  
