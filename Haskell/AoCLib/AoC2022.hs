@@ -69,22 +69,18 @@ findCommonElementHelper :: Set.Set Char -> [Set.Set Char] -> Char
 findCommonElementHelper c [] = head (Set.toList c)
 findCommonElementHelper c (x:xs) = findCommonElementHelper (Set.intersection c x) xs
 
--- Note - for Day 6, this will return the START of the sequence (as a zero-indexed count), not the end (as a one-indexed count) as required, so add 4 to the results
+-- Note - for Day 6, this should return the START of the sequence (as a zero-indexed count), not the end (as a one-indexed count) as required, so add 4 to the results - except it doesn't... It returns 1 below the number of processed characters
 findUniqueSequence :: Int -> String -> Int
 findUniqueSequence lengthOfSequence searchString = findUniqueSequenceHelper 0 lengthOfSequence [] searchString
 
 findUniqueSequenceHelper :: Int -> Int -> String -> String -> Int
+findUniqueSequenceHelper startIndex _ _ [] = startIndex
 findUniqueSequenceHelper startIndex sequenceLength [] (topOfSequence:restOfSequence) = findUniqueSequenceHelper (startIndex + 1) sequenceLength (topOfSequence:[]) restOfSequence 
 findUniqueSequenceHelper startIndex sequenceLength (currentSequenceDrop:currentSequence) (nextChar:remainingSearchString)
-  | (sequenceLength == ((length currentSequence) + 1)) && (not uniqueSequence) = findUniqueSequenceHelper (startIndex +1) sequenceLength (currentSequence ++ (list nextChar)) remainingSearchString
-  | (sequenceLength == ((length currentSequence) + 1)) && uniqueSequence = startIndex
-  | otherwise = findUniqueSequenceHelper (startIndex + 1) sequenceLength (currentSequence ++ (list nextChar)) remainingSearchString
-  where uniqueSequence = isUniqueSequence (currentSequence ++ (list nextChar))
-  
-isUniqueSequence :: String -> Bool
-isUniqueSequence [] = True
-isUniqueSequence (x:xs) 
-  | x `elem` xs = False
-  | otherwise   = isUniqueSequence xs
-  
+  | (sequenceLength == ((length currentSequence) + 1)) 
+    && (not uniqueSequence) = findUniqueSequenceHelper (startIndex +1) sequenceLength (currentSequence ++ nextChar:[]) remainingSearchString
+  | (sequenceLength == ((length currentSequence) + 1)) 
+    && uniqueSequence = startIndex
+  | otherwise = findUniqueSequenceHelper (startIndex + 1) sequenceLength ((currentSequenceDrop:currentSequence) ++ (nextChar:[])) remainingSearchString
+  where uniqueSequence = isUniqueSequence (currentSequence ++ (nextChar:[]))
   
