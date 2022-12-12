@@ -11,7 +11,7 @@ makeEdges s = makeEdgesHelper (length (head s)) (length s) (0, 0) s
 
 makeEdgesHelper :: Int -> Int -> (Int,Int) -> [String]-> [EdgeSpec]
 makeEdgesHelper maxX maxY (x, y) s 
-  | x == maxX && y == maxY = []
+  | x == maxX && y == (maxY - 1) = []
   | x == maxX = makeEdgesHelper maxX maxY (0, (y + 1)) s
   | otherwise = (makeEdgesFromNodes (x, y) (getSurroundingNodes s (x, y))) ++ (makeEdgesHelper maxX maxY ((x + 1), y) s)
 
@@ -21,13 +21,15 @@ makeEdgesFromNodes (fX, fY) (x:xs) = (EdgeSpec { fromNode = (fX, fY), toNode = x
 
 getSurroundingNodes :: [String] -> (Int, Int) -> [(Int, Int)]
 getSurroundingNodes s (x, y) 
-  | x == 0 && y == 0 = filter (\(nx, ny) -> (makeHeight ((s!!y)!!x)) >= ((makeHeight ((s!!ny)!!nx)) - 1)) [(x, (y+1)),((x+1), y)]
-  | x == 0 = filter (\(nx, ny) -> (makeHeight ((s!!y)!!x)) >= ((makeHeight ((s!!ny)!!nx)) - 1)) [(x, (y+1)),((x+1), y), ((x+1), (y-1))]
-  | y == 0 = filter (\(nx, ny) -> (makeHeight ((s!!y)!!x)) >= ((makeHeight ((s!!ny)!!nx)) - 1)) [(x, (y+1)),((x+1), y),((x-1),y)]
-  | x == (length (head s)) && y == (length s) = filter (\(nx, ny) -> (makeHeight ((s!!y)!!x)) >= ((makeHeight ((s!!ny)!!nx)) - 1)) [(x, (y-1)),((x-1), y)]
-  | x == (length (head s)) = filter (\(nx, ny) -> (makeHeight ((s!!y)!!x)) >= ((makeHeight ((s!!ny)!!nx)) - 1)) [(x, (y+1)),((x-1), y), (x, (y-1))]
-  | y == (length s) = filter (\(nx, ny) -> (makeHeight ((s!!y)!!x)) >= ((makeHeight ((s!!ny)!!nx)) - 1)) [(x, (y-1)),((x-1), y), ((x+1),(y-1))]
-  | otherwise = filter (\(nx, ny) -> (makeHeight ((s!!y)!!x)) >= ((makeHeight ((s!!ny)!!nx)) - 1)) [(x, (y-1)),((x-1), y), ((x),(y+1)), ((x+1),y)]
+  | x == 0 && y == 0 = filter (\(nx, ny) -> (makeHeight ((s!!y)!!x)) >= ((makeHeight ((s!!ny)!!nx)) - 1)) [(x, (y+1)),((x+1), y)] -- Top Left
+  | x == ((length (head s)) - 1) && y == ((length s) - 1) = filter (\(nx, ny) -> (makeHeight ((s!!y)!!x)) >= ((makeHeight ((s!!ny)!!nx)) - 1)) [(x, (y-1)),((x-1), y)] -- Bottom Right
+  | x == ((length (head s)) - 1) && y == 0 = filter (\(nx, ny) -> (makeHeight ((s!!y)!!x)) >= ((makeHeight ((s!!ny)!!nx)) - 1)) [((x - 1), y),(x, (y + 1))] -- Top Right
+  | x == 0 && y == ((length s) - 1) = filter (\(nx, ny) -> (makeHeight ((s!!y)!!x)) >= ((makeHeight ((s!!ny)!!nx)) - 1)) [(x, (y-1)),((x+1), y)] -- Bottom Left
+ | x == 0 = filter (\(nx, ny) -> (makeHeight ((s!!y)!!x)) >= ((makeHeight ((s!!ny)!!nx)) - 1)) [(x, (y+1)),((x+1), y), ((x+1), (y-1))] -- Left Edge
+  | y == 0 = filter (\(nx, ny) -> (makeHeight ((s!!y)!!x)) >= ((makeHeight ((s!!ny)!!nx)) - 1)) [(x, (y+1)),((x+1), y),((x-1),y)] -- Top Edge
+  | x == ((length (head s)) - 1) = filter (\(nx, ny) -> (makeHeight ((s!!y)!!x)) >= ((makeHeight ((s!!ny)!!nx)) - 1)) [(x, (y+1)),((x-1), y), (x, (y-1))] -- Right Edge
+  | y == ((length s) - 1) = filter (\(nx, ny) -> (makeHeight ((s!!y)!!x)) >= ((makeHeight ((s!!ny)!!nx)) - 1)) [(x, (y-1)),((x-1), y), ((x+1),(y-1))] -- Bottom Edge
+  | otherwise = filter (\(nx, ny) -> (makeHeight ((s!!y)!!x)) >= ((makeHeight ((s!!ny)!!nx)) - 1)) [(x, (y-1)),((x-1), y), ((x),(y+1)), ((x+1),y)] -- Middle
 
 makeHeight :: Char -> Int
 makeHeight c
